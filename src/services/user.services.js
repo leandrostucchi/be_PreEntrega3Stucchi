@@ -2,20 +2,20 @@ import uuid4 from "uuid4";
 import Users from "../models/users.model.js";
 
 
-function  getUserByEmail(email){
-    return  Users.findOne({email});
+async function  getUserByEmail(email){
+    return await Users.findOne({email});
 }
 
-function getUserByCreds(email, password) {
-    return Users.findOne({email, password});
+async function getUserByCreds(email, password) {
+    return await Users.findOne({email, password});
 }
 
-function insert(first_name, last_name, age, email, password) {
-    return new Users({first_name, last_name, age, email, password}).save();
+async function insert(first_name, last_name, age, email, password) {
+    return await new Users({first_name, last_name, age, email, password}).save();
 }
 
-function getUserByID(id) {
-    return Users.findOne({_id:id}).lean();
+async function getUserByID(id) {
+    return await Users.findOne({_id:id}).lean();
 }
 
 export const UserServices = {

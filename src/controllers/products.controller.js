@@ -12,7 +12,8 @@ import { ObjectId } from 'mongodb';
 async function getProductsPaginate(req,res){
     console.log("get");
     let body= req.body;
-    //console.log(new PaginationParameters(req))
+    console.log(res)
+    console.log(new PaginationParameters(req))
     let sort = new PaginationParameters(req).query.sort;
     let fullUrl = req.protocol + '://' + req.get('host') + req.path;
     //let fullUrl = 'http://localhost:9080/api/products'
@@ -40,6 +41,7 @@ async function getProductsPaginate(req,res){
             result:"success",
             payload:resultado,
         });
+        //res.render("products",{resultado})
 
         let totalPages= resultado.totalPages;
         let prevPage=resultado.prevPage;

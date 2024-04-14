@@ -5,7 +5,7 @@ class UsersDAO {
         console.log("getUserByEmail"+ email)
         let dato =  UserServices.getUserByEmail({email});
         console.log(" luego de leer getUserByEmail")
-        console.log(dato)
+        //console.log(dato)
         return dato;
 
     }

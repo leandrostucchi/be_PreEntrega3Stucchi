@@ -1,11 +1,12 @@
 // lado servidor
 
 import express from "express";
-import handlebars,{engine} from "express-handlebars";
+import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import viewsRouter from './routes/views.router.js';
 import productsRouter from "./routes/productsModel.router.js"
 import cartsRouter from "./routes/cartsModel.router.js"
+import usersRouter from "./routes/sessions.router.js"
 import { Server } from "socket.io";
 
 import mongoose from "mongoose";
@@ -64,7 +65,11 @@ app.use(express.json())
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
+//app.set("views", `${__dirname}/views`);
+app.engine(".hbs", handlebars.engine({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
+
 
 app.use(express.static(__dirname + "/public"));
 
@@ -72,7 +77,7 @@ app.use(express.static(__dirname + "/public"));
 app.use('/', viewsRouter)
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-
+app.use("/api/sessions", usersRouter);
 
 app.get('/ping',(req,res) =>{res.send('pong') })
 app.get("/:universalURL", (req, res) => { 

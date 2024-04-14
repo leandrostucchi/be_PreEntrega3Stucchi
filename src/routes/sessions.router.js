@@ -13,41 +13,46 @@ import { UserController } from "../controllers/users.controller.js";
 const router = express.Router();
 
 //ROUTES
-router.use("/api/products", productsRouter);
-router.use("/api/carts", cartsRouter);
+// router.use("/api/products", productsRouter);
+// router.use("/api/carts", cartsRouter);
 
 
 
 
 //router.post("/register",passport.authenticate('register',{failureRedirect:'/failregister'}), async (req, res) => {
-router.post("/register", async (req, res) => {
-    console.log("/register con autenticacion")
-    let first_name = req.body.first_name;
-    let last_name = req.body.last_name;
-    let email = req.body.email;
-    let age = parseInt(req.body.age);
-    let password = createHash(req.body.password);
 
-    if(!first_name || !last_name || !email || !age || !password){
-        res.redirect("/register");
-    }
+//router.post("/register",passport.authenticate('register',{failureRedirect:'/failregister'}), UserController.register);
+router.post("/register", UserController.register);
 
-    let emailUsed = await UsersDAO.getUserByEmail(email);
-console.log("email " + emailUsed)
-    if(emailUsed){
-        res.redirect("/register");
-    } else {
-        console.log(password)
-        await UsersDAO.insert(first_name,last_name,age,email,password);
-        res.redirect("/current");
-    }
+// router.post("/register", async (req, res) => {
+//     console.log("/register con autenticacion")
+//     console.log(req.body)
+//     let first_name = req.body.first_name;
+//     let last_name = req.body.last_name;
+//     let email = req.body.email;
+//     let age = parseInt(req.body.age);
+//     let password = createHash(req.body.password);
 
-})
+//     if(!first_name || !last_name || !email || !age || !password){
+//         res.redirect("/register");
+//     }
 
-// router.get('/failregister', (req, res) => {
-//     console.log("Failed Strategy")
-//     res.send({error:"Failed"})
+//     let emailUsed =  UsersDAO.getUserByEmail(email);
+// console.log("email " + emailUsed)
+//     if(emailUsed){
+//         res.redirect("/register");
+//     } else {
+//         console.log(password)
+//         await UsersDAO.insert(first_name,last_name,age,email,password);
+//         res.redirect("/current");
+//     }
+
 // })
+
+router.get('/failregister', (req, res) => {
+    console.log("Failed Strategy")
+    res.send({error:"Failed"})
+})
 
 
 
@@ -55,6 +60,7 @@ console.log("email " + emailUsed)
 
 
 router.post("/login",   UserController.login);
+
 
 // router.get('/faillogin', (req, res) => {
 //     console.log("Failed login")

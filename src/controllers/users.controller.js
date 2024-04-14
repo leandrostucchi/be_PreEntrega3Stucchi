@@ -7,6 +7,9 @@ import UsersDAO from "../daos/users.dao.js";
 //import cartsRouter from "./cartsModel.router.js"
 import { createHash, isValidPassword } from '../utils.js';
 import passport from 'passport';
+import CustomerError from "../services/errors/customsError.js";
+import { generateUserErrorInfo } from "../services/errors/info.js";
+import EErrors from "../services/errors/enums.js";
 
 
 //const router = express.Router();
@@ -14,24 +17,36 @@ import passport from 'passport';
 
 //router.post("/register",passport.authenticate('register',{failureRedirect:'/failregister'}), async (req, res) => {
 
-function register (req, res){
+async function register (req, res){
     console.log("/register con autenticacion")
+    console.log(req.body)
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
     let age = parseInt(req.body.age);
-    let password = createHash(req.body.password);
+    //let password = createHash(req.body.password);
+    let password = req.body.password;
 
     if(!first_name || !last_name || !email || !age || !password){
-        res.redirect("/register");
+        res.send("/register");
+    }else{
+        CustomerError.createError(
+            {
+                name:"User Creation Error",
+                cuase: generateUserErrorInfo({first_name,last_name,email}),
+                message:"Error trying to create User",
+                code:EErrors.INVALID_TYPES_ERROR
+            }
+        )
     }
-    let emailUsed = UsersDAO.getUserByEmail(email);
+
+    let emailUsed = await UsersDAO.getUserByEmail(email);
 console.log("email " + emailUsed)
     if(emailUsed){
         res.redirect("/register");
     } else {
         console.log(password)
-        UsersDAO.insert(first_name,last_name,age,email,password);
+        await UsersDAO.insert(first_name,last_name,age,email,password);
         res.redirect("/current");
     }
 }

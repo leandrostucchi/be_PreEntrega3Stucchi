@@ -9,6 +9,7 @@ import usersRouter from "./sessions.router.js"
 import UsersDAO from "../daos/users.dao.js";
 import passport from 'passport';
 import { productsController } from '../controllers/products.controller.js';
+import { UserController } from '../controllers/users.controller.js';
 
 //const dataID = document.getElementById('update').value;
 
@@ -24,30 +25,52 @@ router.get('/', (req, res) => {
 
 
 router.get('/home', (req, res) => {
-  console.log("/home")
-  if(req.session.user){
+  console.log("/home por aca")
+  console.log(req.session)
+  if(req.session){
 console.log("res.redirect(/products);")
-    res.redirect("/products");
+    res.redirect("/login");
   } else {
       res.render("home");
   }
 
 });
 
-router.get('/register', (req, res) => {
-  res.render("register");
-});
+// router.get('/register', (req, res) => {
+//   res.render("register");
+// });
+
+
+// router.get("/login", (req, res) => {
+//   console.log("/login")  
+//   console.log(req.session)
+//   try {
+//     console.log("try products")  
+//     res.redirect("/products");
+//     // res.render("login", {
+// 		// 	title: "Login || Leandro",
+// 		// });
+// 	} catch (error) {
+// 		console.error("Error al procesar la solicitud:", error);
+// 	}
+// });
+
 
 router.get("/login", (req, res) => {
+  console.log("/login")  
+  console.log(req.session.user)
   if(req.session.user){
-      res.redirect("/products");
-  } else {
+    console.log("/productsModel")  
+    res.redirect("/productsModel");
+   } else {
       res.render("login");
   }
 
 })
 
-router.get('/products', productsController.getProductsPaginate)
+router.get('/products', productsController.getProductsPaginate);
+
+router.post('/register', UserController.register);
 // router.get('/products',
 // async (req, res) => {
 //   console.log("views get products")
