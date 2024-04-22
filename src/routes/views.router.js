@@ -1,5 +1,4 @@
 import express from 'express';
-//import { Router } from 'express';
 const router = express.Router();
 import productManager from '../daos/products.dao.js';
 import cartManager from '../daos/products.dao.js';
@@ -11,7 +10,6 @@ import passport from 'passport';
 import { productsController } from '../controllers/products.controller.js';
 import { UserController } from '../controllers/users.controller.js';
 
-//const dataID = document.getElementById('update').value;
 
 //ROUTES
 router.use("/api/products", productsRouter);
@@ -28,8 +26,9 @@ router.get('/home', (req, res) => {
   console.log("/home por aca")
   console.log(req.session)
   if(req.session){
-console.log("res.redirect(/products);")
+    console.log("res.redirect(/products);")
     res.redirect("/login");
+    //productsController.getProductsPaginate(req, res);
   } else {
       res.render("home");
   }
@@ -58,19 +57,23 @@ console.log("res.redirect(/products);")
 
 router.get("/login", (req, res) => {
   console.log("/login")  
-  console.log(req.session.user)
-  if(req.session.user){
-    console.log("/productsModel")  
-    res.redirect("/productsModel");
-   } else {
-      res.render("login");
-  }
+  //console.log(req)
+  res.redirect("profile");
+
+  // if(req.session.user){
+  //   console.log("/productsModel")  
+  //   res.render("products");
+  //  } else {
+  //     res.render("login");
+  // }
 
 })
 
 router.get('/products', productsController.getProductsPaginate);
 
 router.post('/register', UserController.register);
+
+router.get('/profile',UserController.profile);
 // router.get('/products',
 // async (req, res) => {
 //   console.log("views get products")

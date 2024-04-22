@@ -7,14 +7,15 @@ import viewsRouter from './routes/views.router.js';
 import productsRouter from "./routes/productsModel.router.js"
 import cartsRouter from "./routes/cartsModel.router.js"
 import usersRouter from "./routes/sessions.router.js"
+//import sessionsRouter from "./routes/sessions.router.js";
+
 import { Server } from "socket.io";
 
 import mongoose from "mongoose";
-//import sessionsRouter from "./routes/sessions.router.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
-import passport, { Passport } from "passport";
+//import passport, { Passport } from "passport";
 //import initializePassport from "./config/passport.config.js";
 
 import config from "./config/config.js";
@@ -40,6 +41,7 @@ app.use(cookieParser(secret_cookie));
 app.use(session({
     store:MongoStore.create({
         mongoUrl:mongodbweb,
+        //mongoUrl:mongodblocal,
         //mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
         ttl:ttl,
     }),

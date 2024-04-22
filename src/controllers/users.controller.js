@@ -56,12 +56,35 @@ console.log("email " + emailUsed)
 //     res.send({error:"Failed"})
 // })
 
+async function profile (req, res) {
+    const user =  req.body
+    console.log("entre por aca " +  JSON.stringify(user))
+console.log ("body " + JSON.stringify(req.body))
+console.log ("req " + req)
+    if (!user){ res.status(400).send({status:"error",error:"Invalid Credentials"})
+    }else{
+        let UserBD = UsersDAO.getUserByEmail(user.email);
+        console.log(UserBD)
+        console.log("token")
+        let token = jwt.sign({id: UserBD._id}, 'secret_jwt', { expiresIn: '1h' });
+        console.log("token " + token)
+        console.log("cookies")
+        res.cookie("jwt", token, {
+            signed:true,
+            httpOnly:true,
+            maxAge: 1000*60*60
+        //}).json({status:200, msg:"Logged in"});
+        }).redirect("/products");
+    }
+}
+
+
 
 
 //router.post("/login",passport.authenticate('/login',{failureRedirect:'/faillogin'}), async (req, res) => {
 
 
-function login (req, res) {
+async function login (req, res) {
     const user =  req.body
     console.log("entre por aca " +  JSON.stringify(user))
     if (!user){ res.status(400).send({status:"error",error:"Invalid Credentials"})
@@ -130,4 +153,5 @@ function login (req, res) {
 export const UserController  = {
     register,
     login,
+    profile,
 }

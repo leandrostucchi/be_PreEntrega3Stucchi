@@ -9,15 +9,15 @@ import { ObjectId } from 'mongodb';
     // console.log(req.query)
 
 
-async function getProductsPaginate(req,res){
+ async function getProductsPaginate(req,res){
     console.log("get");
     let body= req.body;
-    console.log(res)
+    console.log(res.body)
     console.log(new PaginationParameters(req))
     let sort = new PaginationParameters(req).query.sort;
     let fullUrl = req.protocol + '://' + req.get('host') + req.path;
     //let fullUrl = 'http://localhost:9080/api/products'
-    //let fullUrl = 'http://localhost:9080/products'
+    //let fullUrl = 'http://localhost:6080/products'
     let page = parseInt(req.query.page)|| null;
     let limit = parseInt(req.query.limit) || null;
     let resultado= null;
@@ -28,21 +28,13 @@ async function getProductsPaginate(req,res){
         ordenadoPor =  {'price':sortModo?sortModo:1 };
     }
     try {
-        resultado = await ProductsDAO.getProductsPaginate({}
+        resultado =await ProductsDAO.getProductsPaginate({}
             ,{
                 page:  page?page:1,
                 limit: limit?limit:10,
                 sort:  ordenadoPor,
                 lean:  true
             })
-            //console.log("resultado" + resultado)
-            res.status(200).send({
-            status:200,
-            result:"success",
-            payload:resultado,
-        });
-        //res.render("products",{resultado})
-
         let totalPages= resultado.totalPages;
         let prevPage=resultado.prevPage;
         let nextPage=resultado.nextPage;
@@ -75,8 +67,18 @@ async function getProductsPaginate(req,res){
         resultado.nextLink = hasNextPage?`${fullUrl}${datosNext}`:'';
         let nextLink = resultado.nextLink;
         let isValid= resultado.isValid= !(page<=0||page>totalPages);
-        console.log(prevLink)
-        console.log(nextLink)
+        console.log(resultado)
+        res.status(200).render("products",{
+            docs:resultado.docs,
+            isValid:isValid,
+            page:resultado.page,
+            hasNextPage: resultado.hasNextPage,
+            nextLink:resultado.nextLink,
+            hasPrevPage: resultado.hasPrevPage,
+            prevLink:resultado.prevLink
+    
+
+        });
     } catch (error) {
         console.log(`Mensaje de error: ${error}`)
         res.status(500).send({

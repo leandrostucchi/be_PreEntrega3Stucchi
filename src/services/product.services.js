@@ -7,12 +7,12 @@ async function getProducts() {
 }
 
 
-async function getProductsPaginate(funcion,seteo) {
+ function getProductsPaginate(funcion,seteo) {
     console.log("antes getProductsPaginate")    
     console.log (funcion)
     console.log(seteo)
     console.log("antes getProductos paginate")
-    return await ProductModel.paginate(funcion,seteo)
+    return  ProductModel.paginate(funcion,seteo)
 }
 
 async function getProductByLimit(limit) {

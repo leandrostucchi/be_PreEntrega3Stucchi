@@ -61,6 +61,8 @@ router.get('/failregister', (req, res) => {
 
 router.post("/login",   UserController.login);
 
+router.get("/profile",   UserController.profile);
+
 
 // router.get('/faillogin', (req, res) => {
 //     console.log("Failed login")
@@ -79,11 +81,11 @@ router.get("/logout", (req, res) => {
 })
 
 
-router.get('/products', async (req, res) => {
-  console.log("session get products")
-  let products = await productManager.getProducts();
-  res.render('products', { products });
-});
+// router.get('/products', async (req, res) => {
+//   console.log("session get products")
+//   let products = await productManager.getProducts();
+//   res.render('products', { products });
+// });
 
 
 router.get('/github',passport.authenticate('github',{scope:['user:email']}),async (req,res)=>{console.log('aca github')})
