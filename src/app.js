@@ -15,6 +15,7 @@ import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
+import { addLogger } from "./utils/logger.js";
 //import passport, { Passport } from "passport";
 //import initializePassport from "./config/passport.config.js";
 
@@ -30,8 +31,12 @@ export const ttl= config.ttl;
 
 
 const app = express();
+app.use(addLogger);
 
-const httpServer =  app.listen(port,() => console.log('Servidor arriba  puerto:' + port))
+const httpServer =  app.listen(port,() => {console.log('Servidor arriba  puerto:' + port)
+}
+
+)
 
 
 const io = new Server(httpServer);
