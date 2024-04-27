@@ -15,10 +15,11 @@ import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
-import { addLogger } from "./utils/logger.js";
+//import { addLogger } from "./utils/logger.js";
 //import passport, { Passport } from "passport";
 //import initializePassport from "./config/passport.config.js";
 
+import {loggersUtil} from "../src/utils/logger.js"
 import config from "./config/config.js";
 
 export const port = config.port;
@@ -31,11 +32,10 @@ export const ttl= config.ttl;
 
 
 const app = express();
-app.use(addLogger);
+app.use(loggersUtil.addLogger);
 
-const httpServer =  app.listen(port,() => {console.log('Servidor arriba  puerto:' + port)
-}
-
+const httpServer =  app.listen(
+  port,() =>{loggersUtil.logger.info('Servidor arriba  puerto:' + port)}
 )
 
 
@@ -56,13 +56,15 @@ app.use(session({
 }))
 
 
+
+
 //mongoose.connect(mongodblocal)
-mongoose.connect(mongodbweb)
-.then(success => console.log('Conectado a la base'))
+mongoose.connect(mongodbweb )
+.then(success => loggersUtil.logger.info('Conectado a la base'))
 .catch(error =>{
     if(error){
-      console.log('No se pudo conectar a la base ' + error);
-      process.exit();
+      loggersUtil.logger.error('No se pudo conectar a la base ' + error);
+      //process.exit();
     }
   });
 
@@ -88,7 +90,7 @@ app.use("/api/sessions", usersRouter);
 
 app.get('/ping',(req,res) =>{res.send('pong') })
 app.get("/:universalURL", (req, res) => { 
-  console.log(req.error)
+  loggersUtil.logger.error('/:universalURL ' + '404 URL NOT FOUND');
   res.status(404).send({
     status:404,
     result:"error",
