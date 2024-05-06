@@ -78,6 +78,7 @@ const addLogger = (req,res,next) => {
     */
     
     switch (req.logger.levels) {
+        
         case 0:
             req.logger.error(mensaje);
             break;

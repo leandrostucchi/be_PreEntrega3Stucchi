@@ -7,6 +7,9 @@ import viewsRouter from './routes/views.router.js';
 import productsRouter from "./routes/productsModel.router.js"
 import cartsRouter from "./routes/cartsModel.router.js"
 import usersRouter from "./routes/sessions.router.js"
+
+import passresetRouter from "./routes/passwordReset.js"; 
+
 //import sessionsRouter from "./routes/sessions.router.js";
 
 import { Server } from "socket.io";
@@ -87,6 +90,8 @@ app.use('/', viewsRouter)
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", usersRouter);
+app.use("/api/password-reset", passwordReset);
+
 
 app.get('/ping',(req,res) =>{res.send('pong') })
 app.get("/:universalURL", (req, res) => { 
