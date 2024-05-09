@@ -58,16 +58,13 @@ app.use(session({
     saveUninitialized:true
 }))
 
-
-
-
 //mongoose.connect(mongodblocal)
 mongoose.connect(mongodbweb )
 .then(success => loggersUtil.logger.info('Conectado a la base'))
 .catch(error =>{
     if(error){
       loggersUtil.logger.error('No se pudo conectar a la base ' + error);
-      //process.exit();
+      process.exit();
     }
   });
 
