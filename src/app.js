@@ -8,6 +8,7 @@ import productsRouter from "./routes/productsModel.router.js"
 import cartsRouter from "./routes/cartsModel.router.js"
 import usersRouter from "./routes/sessions.router.js"
 
+
 import passresetRouter from "./routes/passwordReset.js"; 
 
 //import sessionsRouter from "./routes/sessions.router.js";
@@ -18,6 +19,9 @@ import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
 //import { addLogger } from "./utils/logger.js";
 //import passport, { Passport } from "passport";
 //import initializePassport from "./config/passport.config.js";
@@ -87,7 +91,7 @@ app.use('/', viewsRouter)
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", usersRouter);
-app.use("/api/password-reset", passwordReset);
+app.use("/api/password-reset", passresetRouter);
 
 
 app.get('/ping',(req,res) =>{res.send('pong') })
